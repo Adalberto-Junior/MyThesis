@@ -1,0 +1,25 @@
+backend:
+    pip install flask-pymongo
+    pip install flask
+
+
+frontend:
+    react
+    npm i react-router-dom
+    npm install @mui/material @emotion/react @emotion/styled @mui/lab
+    npm install react-phone-number-input --save
+    //npm install react-collapse --save
+    npm install react-bootstrap 
+    npm install bootstrap
+    npm install axios
+    npm install react-hook-form
+    npm install @hookform/error-message
+    npm install @headlessui/react
+    npm install @heroicons/react
+    npm install d3
+    npm install date-fns
+
+
+    
+
+    
