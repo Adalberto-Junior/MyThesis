@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Dinâmico</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Exercícios</h1>
+    <div class="container">
+        <form action="/" method="post" id="dynamicForm">
+            <label for="name">Nome do Exercício:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="description">Descrição:</label><br>
+            <input type="text" id="description" name="description-exercise" required><br><br>
+
+            <label for="tipo">Tipo:</label><br>
+            <select id="tipo" name="tipo" onchange="showFields()">
+                <option value="">Selecione...</option>
+                <option value="palavras">Repetição de Palavras</option>
+                <option value="frases">Repetição de Frases</option>
+                <option value="leitura">Atividades de Leitura</option>
+                <option value="discurso">Discurso Espontâneo</option>
+                <option value="diadococinesia">Diadococinésia</option>
+            </select>
+            <br><br>
+
+            <!-- Container dinâmico de campos -->
+            <div id="stepsContainer" class="hidden">
+                <h2>Passos:</h2>
+                <div id="stepFields"></div>
+                <button type="button" onclick="addSteps()">Adicionar mais 3 passos</button>
+            </div>
+    
+            <button type="submit" onclick="submitForm(event)">Submeter Exercício</button>
+        </form>
+    </div>
+
+    <script>
+        let stepCount = 0;
+
+        // Exibir campos dinâmicos com base no tipo
+        function showFields() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepFields = document.getElementById('stepFields');
+
+            // Redefinir
+            stepFields.innerHTML = '';
+            stepCount = 0;
+
+            const tipo = document.getElementById('tipo').value;
+
+            if (tipo) {
+                stepsContainer.classList.remove('hidden');
+
+                // Adicionar os primeiros 3 passos para o tipo selecionado
+                if (tipo === 'palavras') {
+                    addSteps(3, ['Passo', 'Palavra', 'Descrição']);
+                } else if (tipo === 'frases') {
+                    addSteps(3, ['Passo', 'Frase', 'Descrição']);
+                } else if (tipo === 'leitura') {
+                    addSteps(3, ['Passo', 'Título', 'Texto', 'Descrição']);
+                } else if (tipo === 'discurso') {
+                    addSteps(3, ['Passo', 'Pergunta']);
+                } else if (tipo === 'diadococinesia') {
+                    addSteps(3, ['Passo', 'Tipo de Consoante', 'Sílabas']);
+                }
+            } else {
+                stepsContainer.classList.add('hidden');
+            }
+        }
+
+        // Adicionar campos dinâmicos
+        function addSteps(amount = 3, fieldNames = []) {
+            const stepFields = document.getElementById('stepFields');
+
+            for (let i = 0; i < amount; i++) {
+                stepCount++;
+
+                const fieldDiv = document.createElement('div');
+                fieldDiv.id = `step-${stepCount}`;
+
+                const fieldLabel = document.createElement('label');
+                fieldLabel.innerText = `Passo ${stepCount}: ${fieldNames[stepCount % fieldNames.length]}`;
+                fieldDiv.appendChild(fieldLabel);
+
+                const fieldInput = document.createElement('input');
+            }
+        }
+    </script>
+</body>
+</html>

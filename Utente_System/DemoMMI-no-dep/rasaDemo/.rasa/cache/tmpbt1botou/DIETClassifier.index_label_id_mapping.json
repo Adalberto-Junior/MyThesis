@@ -1,0 +1,19 @@
+{
+  "0": "affirm",
+  "1": "agradecer",
+  "2": "ask_username",
+  "3": "change_color",
+  "4": "communication_skills",
+  "5": "continue_analyze",
+  "6": "continue_from_lst_ste",
+  "7": "continue_later",
+  "8": "deny",
+  "9": "goodbye",
+  "10": "greet",
+  "11": "light_switch",
+  "12": "request_Diagnostic_data",
+  "13": "request_change_username",
+  "14": "sendToTherapist",
+  "15": "show_menu",
+  "16": "specific_exercises"
+}

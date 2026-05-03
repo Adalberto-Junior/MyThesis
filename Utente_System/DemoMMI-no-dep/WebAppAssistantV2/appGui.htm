@@ -1,0 +1,1329 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CASA VIVA + APPGUI</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+        --indicator-color: black;
+        background: #fff; /*radial-gradient(#fff 75%, var(--indicator-color));*/
+        min-height: 100vh;
+        color: burlywood;
+        font-family: Poppins;
+        margin: 0;
+        padding: 0;
+      }
+      .mic{
+        width: 150px;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+      }
+
+      .responseText{
+        border: solid 2px #8ea7cf;
+        margin: 2%;
+        color: #41683a;
+      }
+
+      .bottomNav{
+        
+        position: absolute;
+        bottom: 2%;
+        width: 95%;
+      }
+      .recognized{
+        font-size:x-large;
+      }
+      .myDiv {
+            border: 0px outset beige;
+            background-color: #4F5D73;    
+            text-align: center;
+            width: 99%;
+            height: 40px;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+      }
+      .corner-text {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 5px; /* Ajuste conforme necessário */
+        color: burlywood; 
+        font-size: 20px; 
+        background-color: #4F5D73; 
+        padding: 10px 20px; 
+        border: none; 
+        border-radius: 4px; 
+        cursor: pointer;
+
+      }
+      .exibirTexto {
+        width:70%; 
+        height:600px; 
+        border: 1px solid #000; 
+        margin: 30px auto; 
+        background:#ccc; 
+        padding-top:30px;
+        border-radius: 8px;
+        /*overflow-y: scroll;*/
+        overflow: auto;
+        overflow-x: scroll;
+      }
+      .userText {
+        position: absolute;
+        top: 8px;
+        right: 80px;
+        margin: 5px; /* Ajuste conforme necessário */
+      }
+
+
+
+    </style>
+  </head>
+  <body>
+    <h1 style="background-color: #4F5D73; margin: 0;">CASA VIVA + APP GUI</h1> 
+    <div class="myDiv"><h1> Viva +  GUI</h1>  </div>
+    <button  class="corner-text"  type="submit" id="logout">Sair</button>
+
+    <div id="response" class=""  style="">d</div>
+    <div class="userText" id="exibir-userName"></div> <!--TODO: Colocar o user name aqui-->
+
+    
+    <!-- <div style="width: 500px;">
+
+    
+    <svg class="a" id="a" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    viewBox="0 0 320 100" style="enable-background:new 0 0 320 100;" xml:space="preserve">
+      <polygon points="50, 0, 0,100,100,100" class="triangle"  />
+      <rect x="110"  width="100" height="100" class="square"/>
+      <circle cx="270" cy="50" r="50" class="circle" />
+    </svg>
+    </div> ->
+
+  <div id="exibir-texto" class="exibirTexto"> </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@latest/dist/svg.min.js"></script>
+    <script src="js/mmi.js"></script>
+    <script src="js/globals.js"></script>
+    <script src="js/jquery-3.6.4.min.js"></script>
+    <script src="js/webtoolkit.utf8.js"></script>
+
+    
+
+
+<script type="module">
+
+
+  var mmiCli_Out_add = "wss://"+host+":8005/IM/USER1/";
+  var mmiCli_Out = null;
+  mmiCli_Out = new MMIClientSocket(mmiCli_Out_add + "GRAPHICS");
+  mmiCli_Out.onMessage.on(im1MessageHandler);
+  mmiCli_Out.onOpen.on(socketOpenHandler);
+	mmiCli_Out.openSocket();
+
+
+  function socketOpenHandler(event) {
+    console.log("---------------openSocketHandler---------------")
+
+    if(mmiCli_Out.socket.readyState !== WebSocket.OPEN)
+    {
+        return;
+    }
+  }
+
+  
+  let circle = SVG.find('.circle');
+  let square = SVG.find('.square');
+  let triangle = SVG.find('.triangle');
+
+  circle.animate().attr({fill:'#ccc'});
+  square.animate().attr({fill:'#ccc'});
+  triangle.animate().attr({fill:'#ccc'});
+
+
+  function im1MessageHandler(data) {
+
+    console.log("--------------im1MessageHandler---------------");
+
+    if(data != null && data!="RENEW" && data!="OK") {
+      console.log(data);
+      //printData(data)
+      var content = $(data).find("emma\\:interpretation").first().text().trim();
+      if (typeof content == 'string') {
+        try {
+          // Try to parse XML
+          console.log(content);
+
+          //$("#response").html(content);
+          //$("#response").addClass("container");
+          //$("#response").addClass("responseText");
+
+          let c = JSON.parse(content);
+          let shape;
+          let color;
+          if (c.hasOwnProperty("nlu") && c.nlu.intent=="change_color") {
+            switch(c.nlu.shape.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')){
+              case 'triangulo': shape = triangle; break;
+              case 'quadrado': shape = square; break;
+              case 'circulo': shape = circle; break;
+            }
+
+            switch(c.nlu.color.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')){
+              case 'azul': color = "#3333FF"; break;
+              case 'verde': color = "#33FF33"; break;
+              case 'cinzento': color = "#aaa"; break;
+              case 'vermelho': color = "#FF3333"; break;
+              case 'branco': color = "#fff"; break;
+              case 'rosa': color = "#ff66b2"; break;
+              case 'amarelo': color = "#ffff33"; break;
+              case 'preto': color = "#000"; break;
+              case 'laranja': color = "#FF9933"; break;
+            }
+
+
+            
+            shape.animate().attr({ fill: color });
+            sendToVoice("Mudei o " + c.nlu.shape + " para a cor " + c.nlu.color);
+          }
+
+          if (c.hasOwnProperty("command")) {
+            if (c.command == "display") {
+              printData(c.message)
+            }
+            if (c.command == "userName") {
+              printUserName(c.message)
+            }
+          }
+          
+          /*setTimeout(function(){
+            $("#response").html("");
+            $("#response").removeClass("container");
+            $("#response").removeClass("responseText");
+          }, 3000);
+          */
+        }
+        catch (e) { console.log(e); }
+
+      }
+    }
+  }
+
+  function printData(texto) {
+    const exibirTexto = document.getElementById("exibir-texto");
+    exibirTexto.innerHTML += `<p style="margin: 10px 0;margin-left: 10px; color: #000; width: 100%; word-wrap: break-word;">${texto}</p>`;
+  }
+
+  function printUserName(texto) {
+    const exibirTexto = document.getElementById("exibir-userName");
+    if (!exibirTexto) {
+      console.error("Elemento com o id 'exibir-userName' não foi encontrado.");
+      return;
+    }
+
+    //exibirTexto.innerHTML += `<p style="margin: 10px 0; color: #000; width: 100%; word-wrap: break-word;">${texto}</p>`;
+    exibirTexto.textContent = texto
+  }
+
+  var mmiCli_2 = null;
+  mmiCli_2 = new MMIClient(null, mmi_fusion + "SPEECHIN");
+
+  document.getElementById("logout").onclick = function () {
+    const data = {
+                action: "logout",
+            };
+    //const hashedPassword = CryptoJS.SHA256(password).toString();
+    var message = {'intent':data.action,'message':"Terminar sessão"}
+    var result = { "recognized" : ["SPEECH", "SPEECHIN", "APP"], "data": data, "nlu": message };
+    mmiCli_2.sendToIM(new LifeCycleEvent("SPEECHIN", "IM", "text-1", "ctx-1").
+            doExtensionNotification(new EMMA("text-", "text", "command", 1, 0).
+            setValue(JSON.stringify(result))));
+    
+    console.log("Logout precionado!");
+  };
+
+  /*
+  function logout() {
+            const data = {
+                action: "logout",
+            };
+            //const hashedPassword = CryptoJS.SHA256(password).toString();
+            var message = {'intent':data.action,'message':"Terminar sessão"}
+            var result = { "recognized" : ["SPEECH", "SPEECHIN", "APP"], "data": data, "nlu": message };
+            mmiCli_2.sendToIM(new LifeCycleEvent("SPEECHIN", "IM", "text-1", "ctx-1").
+                    doExtensionNotification(new EMMA("text-", "text", "command", 1, 0).
+                    setValue(JSON.stringify(result))));
+            
+            console.log("Dados de registro enviados!");
+  }
+            */
+/////
+
+  var mmiCli_1 = null;
+  mmiCli_1 = new MMIClient(null, "https://"+host+":8000/IM/USER1/APPSPEECH");
+
+  circle.on('click', function(){
+      console.log("circulo");
+      sendToVoice("circulo");
+  })
+
+  square.on('click', function(){
+      console.log("quadrado");
+      sendToVoice("quadradoç");
+  })
+
+  triangle.on('click', function(){
+      console.log("triangulo");
+      sendToVoice("triangulo");
+  })
+
+  function sendToVoice(texto){
+    //let speak = "&lt;speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"&gt;&lt;p&gt;" + "quadrado" + "&lt;/p&gt;&lt;/speak&gt";
+  let speak = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"><p>"+texto+"</p></speak>";
+  var result = speak;
+      mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1").
+          doStartRequest(new EMMA("text-", "text", "command", 1, 0).
+            setValue(JSON.stringify(result))));
+  }
+  
+
+
+
+  /////////////////////////////////////////
+
+</script> 
+  </body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CASA VIVA + APPGUI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        --indicator-color: black;
+        background: linear-gradient(120deg, #f0f4f8, #d9e4f5);
+        min-height: 100vh;
+        color: burlywood;
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .mic {
+        width: 150px;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+      }
+
+      .responseText {
+        border: solid 2px #8ea7cf;
+        margin: 2%;
+        color: #41683a;
+      }
+
+      .bottomNav {
+        position: absolute;
+        bottom: 2%;
+        width: 95%;
+      }
+
+      .recognized {
+        font-size: x-large;
+      }
+
+      .myDiv {
+        border: 0px outset beige;
+        background-color: #4F5D73;
+        text-align: center;
+        width: 99%;
+        height: 40px;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+      }
+
+      .corner-text {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 5px;
+        color: burlywood;
+        font-size: 20px;
+        background-color: #4F5D73;
+        padding: 5px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .userText {
+        position: absolute;
+        top: 8px;
+        right: 80px;
+        margin: 5px;
+      }
+
+      .exibirTexto {
+        width: 70%;
+        height: 600px;
+        border: 1px solid #000;
+        margin: 60px auto 30px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-y: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .mensagem {
+        margin: 20px 10px;
+        color: #000;
+        font-size: 18px;
+        line-height: 1.6;
+        word-wrap: break-word;
+      }
+
+      .clear-history {
+        position: absolute;
+        top: 50px;
+        right: 10px;
+        padding: 6px 12px;
+        background: #cc3333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 style="background-color: #4F5D73; margin: 0; font-size: 28px; color: white;">CASA VIVA + APP GUI</h1>
+    <div class="myDiv"><h1 style="color: white; font-size: 20px;">Viva + GUI</h1></div>
+    <button class="corner-text" type="submit" id="logout">Sair</button>
+    <button class="clear-history" onclick="localStorage.clear(); location.reload();">Limpar Histórico</button>
+
+    <div id="response" class=""></div>
+    <div class="userText" id="exibir-userName"></div>
+
+    <div id="exibir-texto" class="exibirTexto"></div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@latest/dist/svg.min.js"></script>
+    <script src="js/mmi.js"></script>
+    <script src="js/globals.js"></script>
+    <script src="js/jquery-3.6.4.min.js"></script>
+    <script src="js/webtoolkit.utf8.js"></script>
+
+    <script type="module">
+      window.onload = function () {
+        const mensagensSalvas = localStorage.getItem("mensagens");
+        if (mensagensSalvas) {
+          document.getElementById("exibir-texto").innerHTML = mensagensSalvas;
+        }
+      };
+
+      var mmiCli_Out_add = "wss://" + host + ":8005/IM/USER1/";
+      var mmiCli_Out = new MMIClientSocket(mmiCli_Out_add + "GRAPHICS");
+      mmiCli_Out.onMessage.on(im1MessageHandler);
+      mmiCli_Out.onOpen.on(socketOpenHandler);
+      mmiCli_Out.openSocket();
+
+      function socketOpenHandler(event) {
+        if (mmiCli_Out.socket.readyState !== WebSocket.OPEN) return;
+      }
+
+      let circle = SVG.find('.circle');
+      let square = SVG.find('.square');
+      let triangle = SVG.find('.triangle');
+
+      circle.animate().attr({ fill: '#ccc' });
+      square.animate().attr({ fill: '#ccc' });
+      triangle.animate().attr({ fill: '#ccc' });
+
+      function im1MessageHandler(data) {
+        if (data != null && data != "RENEW" && data != "OK") {
+          var content = $(data).find("emma\\:interpretation").first().text().trim();
+          if (typeof content == 'string') {
+            try {
+              let c = JSON.parse(content);
+              let shape;
+              let color;
+
+              if (c.hasOwnProperty("nlu") && c.nlu.intent == "change_color") {
+                switch (c.nlu.shape.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
+                  case 'triangulo': shape = triangle; break;
+                  case 'quadrado': shape = square; break;
+                  case 'circulo': shape = circle; break;
+                }
+
+                switch (c.nlu.color.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
+                  case 'azul': color = "#3333FF"; break;
+                  case 'verde': color = "#33FF33"; break;
+                  case 'cinzento': color = "#aaa"; break;
+                  case 'vermelho': color = "#FF3333"; break;
+                  case 'branco': color = "#fff"; break;
+                  case 'rosa': color = "#ff66b2"; break;
+                  case 'amarelo': color = "#ffff33"; break;
+                  case 'preto': color = "#000"; break;
+                  case 'laranja': color = "#FF9933"; break;
+                }
+
+                shape.animate().attr({ fill: color });
+                sendToVoice("Mudei o " + c.nlu.shape + " para a cor " + c.nlu.color);
+              }
+
+              if (c.hasOwnProperty("command")) {
+                if (c.command == "display") {
+                  printData(c.message);
+                }
+                if (c.command == "userName") {
+                  printUserName(c.message);
+                }
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          }
+        }
+      }
+
+      function printData(texto) {
+        const exibirTexto = document.getElementById("exibir-texto");
+        const newParagraph = `<p class="mensagem">${texto}</p>`;
+        exibirTexto.innerHTML += newParagraph;
+
+        // Atualiza localStorage
+        const mensagensAtuais = localStorage.getItem("mensagens") || "";
+        localStorage.setItem("mensagens", mensagensAtuais + newParagraph);
+      }
+
+      function printUserName(texto) {
+        const exibirTexto = document.getElementById("exibir-userName");
+        if (!exibirTexto) {
+          console.error("Elemento com o id 'exibir-userName' não foi encontrado.");
+          return;
+        }
+        exibirTexto.textContent = texto;
+      }
+
+      var mmiCli_2 = new MMIClient(null, mmi_fusion + "SPEECHIN");
+      document.getElementById("logout").onclick = function () {
+        const data = { action: "logout" };
+        var message = { intent: data.action, message: "Terminar sessão" };
+        var result = {
+          recognized: ["SPEECH", "SPEECHIN", "APP"],
+          data: data,
+          nlu: message
+        };
+        mmiCli_2.sendToIM(new LifeCycleEvent("SPEECHIN", "IM", "text-1", "ctx-1")
+          .doExtensionNotification(new EMMA("text-", "text", "command", 1, 0)
+            .setValue(JSON.stringify(result))));
+        console.log("Logout pressionado!");
+      };
+
+      var mmiCli_1 = new MMIClient(null, "https://" + host + ":8000/IM/USER1/APPSPEECH");
+
+      circle.on('click', function () {
+        sendToVoice("circulo");
+      });
+      square.on('click', function () {
+        sendToVoice("quadrado");
+      });
+      triangle.on('click', function () {
+        sendToVoice("triangulo");
+      });
+
+      function sendToVoice(texto) {
+        let speak = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd" xml:lang="pt-PT"><p>${texto}</p></speak>`;
+        var result = speak;
+        mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1")
+          .doStartRequest(new EMMA("text-", "text", "command", 1, 0)
+            .setValue(JSON.stringify(result))));
+      }
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CASA VIVA + APPGUI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        --indicator-color: black;
+        background: linear-gradient(120deg, #f0f4f8, #d9e4f5);
+        min-height: 100vh;
+        color: burlywood;
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .mic {
+        width: 150px;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+      }
+
+      .responseText {
+        border: solid 2px #8ea7cf;
+        margin: 2%;
+        color: #41683a;
+      }
+
+      .bottomNav {
+        position: absolute;
+        bottom: 2%;
+        width: 95%;
+      }
+
+      .recognized {
+        font-size: x-large;
+      }
+
+      .myDiv {
+        border: 0px outset beige;
+        background-color: #4F5D73;
+        text-align: center;
+        width: 99%;
+        height: 40px;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+      }
+
+      .corner-text {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 5px;
+        color: burlywood;
+        font-size: 20px;
+        background-color: #4F5D73;
+        padding: 5px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .userText {
+        position: absolute;
+        top: 8px;
+        right: 80px;
+        margin: 5px;
+      }
+
+      .exibirTexto {
+        width: 70%;
+        height: 600px;
+        border: 1px solid #000;
+        margin: 60px auto 30px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-y: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .mensagem {
+        margin: 20px 10px;
+        color: #000;
+        font-size: 18px;
+        line-height: 1.6;
+        word-wrap: break-word;
+        transition: color 0.5s ease;
+
+        list-style-type: disc;
+        /* padding-left: 20px; */
+        /* margin: 10px 0; */
+        font-family: 'Segoe UI', sans-serif;
+        /* font-size: 16px; */
+        /* line-height: 1.5; */
+        /* color: #333; */
+      }
+
+      .mensagem.lido {
+        color: green;
+        opacity: 0.6;
+      }
+
+      .clear-history {
+        position: absolute;
+        top: 50px;
+        right: 10px;
+        padding: 6px 12px;
+        background: #cc3333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .relatorio {
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        color: black;
+        font-size: 16px;
+      }
+
+      .relatorio h2 {
+        text-align: center;
+        color: #2c3e50;
+      }
+
+      .relatorio ul {
+        list-style: disc;
+        padding-left: 20px;
+      }
+
+
+    </style>
+  </head>
+
+  <body>
+    <h1 style="background-color: #4F5D73; margin: 0; font-size: 28px; color: white;">CASA VIVA + APP GUI</h1>
+    <div class="myDiv"><h1 style="color: white; font-size: 20px;">Viva + GUI</h1></div>
+    <button class="corner-text" type="submit" id="logout">Sair</button>
+    <button class="clear-history" onclick="localStorage.clear(); location.reload();">Limpar Histórico</button>
+
+    <div id="response" class=""></div>
+    <div class="userText" id="exibir-userName"></div>
+
+    <div id="exibir-texto" class="exibirTexto"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@latest/dist/svg.min.js"></script>
+    <script src="js/mmi.js"></script>
+    <script src="js/globals.js"></script>
+    <script src="js/jquery-3.6.4.min.js"></script>
+    <script src="js/webtoolkit.utf8.js"></script>
+
+    <script type="module">
+      window.onload = function () {
+        const mensagensSalvas = localStorage.getItem("mensagens");
+        const userNameSalvo = localStorage.getItem("userName");
+
+        if (mensagensSalvas) {
+          document.getElementById("exibir-texto").innerHTML = mensagensSalvas;
+        }
+
+        if (userNameSalvo) {
+          document.getElementById("exibir-userName").textContent = userNameSalvo;
+        }
+
+        // Scroll após carregar
+        const exibirTexto = document.getElementById("exibir-texto");
+        exibirTexto.scrollTop = exibirTexto.scrollHeight;
+      };
+
+      var mmiCli_Out_add = "wss://" + host + ":8005/IM/USER1/";
+      var mmiCli_Out = new MMIClientSocket(mmiCli_Out_add + "GRAPHICS");
+      mmiCli_Out.onMessage.on(im1MessageHandler);
+      mmiCli_Out.onOpen.on(socketOpenHandler);
+      mmiCli_Out.openSocket();
+
+      function socketOpenHandler(event) {
+        if (mmiCli_Out.socket.readyState !== WebSocket.OPEN) return;
+      }
+
+      let circle = SVG.find('.circle');
+      let square = SVG.find('.square');
+      let triangle = SVG.find('.triangle');
+
+      circle.animate().attr({ fill: '#ccc' });
+      square.animate().attr({ fill: '#ccc' });
+      triangle.animate().attr({ fill: '#ccc' });
+
+      function im1MessageHandler(data) {
+        if (data != null && data != "RENEW" && data != "OK") {
+          var content = $(data).find("emma\\:interpretation").first().text().trim();
+          if (typeof content == 'string') {
+            try {
+              let c = JSON.parse(content);
+              if (c.hasOwnProperty("command")) {
+                switch (c.command) {
+                  case "display":
+                    printData(c.message);
+                    break;
+                  case "rehabilitation":
+                    console.log("Comando de reabilitação recebido:", c);
+                    printDataV1(
+                      c.message,
+                      {
+                        imagens: c.images,
+                        audios: c.audios,
+                        videos: c.videos
+                      },
+                      { baseUrl: "http://localhost:5000" } // opcional; se omitido usa window.location.origin
+                    );
+                    break;
+                  case "userName":
+                    printUserName(c.message);
+                    break;
+                  case "report":
+                    renderMedicalReport(c.message);
+                    break;
+                  case "menu":
+                    mostrarMenu(c.message);
+                    break;
+                  case "logout":
+                    console.log("Logout confirmado pelo servidor.");
+                    executarLogout(c.status);
+                    break;
+                }
+              }
+            } catch (e) {
+              console.log("erro: " + e);
+            }
+          }
+        }
+      }
+
+      // function printData(texto) {
+      //   const exibirTexto = document.getElementById("exibir-texto");
+
+      //   // Marcar mensagens antigas como lidas (verdes)
+      //   const mensagensAntigas = exibirTexto.querySelectorAll('.mensagem');
+      //   mensagensAntigas.forEach(msg => msg.classList.add('lido'));
+
+      //   let newParagraph = '';
+
+      //   // Dividir o texto por BR.
+      //   const segmentos = texto.split("BR.").map(seg => seg.trim()).filter(Boolean);
+
+      //   let blocos = [];
+
+      //   segmentos.forEach(segmento => {
+      //     if (segmento.startsWith("PG.")) {
+      //       const conteudo = segmento.replace("PG.", "").trim();
+      //       // Mostra como parágrafo especial com símbolo
+      //       blocos.push(`<p class="mensagem"><span style="color: orange;">🔸</span> ${conteudo}</p>`);
+      //     } else {
+      //       // Conteúdo normal — pode estar num <ul>
+      //       blocos.push(`<li>${segmento}</li>`);
+      //     }
+      //   });
+
+      //   // Verifica se há algum <li> para criar <ul>
+      //   const listaItens = blocos.filter(bloco => bloco.startsWith("<li>")).join("");
+      //   const paragrafosEspeciais = blocos.filter(bloco => !bloco.startsWith("<li>")).join("");
+
+      //   if (listaItens) {
+      //     newParagraph += `<ul class="mensagem">${listaItens}</ul>`;
+      //   }
+
+      //   if (paragrafosEspeciais) {
+      //     newParagraph += paragrafosEspeciais;
+      //   }
+
+      //   // Se nenhum marcador especial, mostrar como parágrafo simples
+      //   if (!texto.includes("BR.") && !texto.includes("PG.")) {
+      //     newParagraph = `<p class="mensagem">${texto}</p>`;
+      //   }
+
+      //   // Mostrar no DOM
+      //   exibirTexto.innerHTML += newParagraph;
+
+      //   // Atualizar localStorage
+      //   const mensagensAtuais = localStorage.getItem("mensagens") || "";
+      //   localStorage.setItem("mensagens", mensagensAtuais + newParagraph);
+
+      //   // Scroll automático
+      //   exibirTexto.scrollTop = exibirTexto.scrollHeight;
+      // }
+
+      function printData(texto) {
+        const exibirTexto = document.getElementById("exibir-texto");
+
+        // Marcar mensagens antigas como lidas (verdes)
+        const mensagensAntigas = exibirTexto.querySelectorAll('.mensagem');
+        mensagensAntigas.forEach(msg => msg.classList.add('lido'));
+
+        const segmentos = texto.split("BR.").map(s => s.trim()).filter(Boolean);
+
+        let blocos = [];
+
+        segmentos.forEach(segmento => {
+          if (segmento.startsWith("PG.")) {
+            const conteudo = segmento.replace("PG.", "").trim();
+            blocos.push({ tipo: "pg", html: `<p class="mensagem"><span style="color: orange;">🔸</span> ${conteudo}</p>` });
+          } else {
+            // Elemento indentado com marcador •
+            blocos.push({
+              tipo: "indentado",
+              html: `<p class="mensagem" style="margin-left: 40px;"><span style="color: #555;">•</span> ${segmento}</p>`
+            });
+          }
+        });
+
+        // Construção do HTML final preservando a ordem
+        let newParagraph = blocos.map(bloco => bloco.html).join("");
+
+        // Se nenhum marcador especial, mostrar como parágrafo simples
+        if (!texto.includes("BR.") && !texto.includes("PG.")) {
+          newParagraph = `<p class="mensagem">${texto}</p>`;
+        }
+
+        // Apresentar no DOM
+        exibirTexto.innerHTML += newParagraph;
+
+        // Atualizar localStorage
+        const mensagensAtuais = localStorage.getItem("mensagens") || "";
+        localStorage.setItem("mensagens", mensagensAtuais + newParagraph);
+
+        // Scroll automático
+        exibirTexto.scrollTop = exibirTexto.scrollHeight;
+      }
+
+      /**
+ * printData(texto, media, options)
+ * - texto: string (usa BR. e PG. como antes)
+ * - media: { imagens: [path], audios: [path], videos: [path] } (opcional)
+ * - options: { baseUrl: 'https://meudominio.com' } (opcional)
+ */
+function printDataV1(texto, media = {}, options = {}) {
+    const exibirTexto = document.getElementById("exibir-texto");
+    if (!exibirTexto) return;
+
+    // Marca mensagens antigas como lidas
+    const mensagensAntigas = exibirTexto.querySelectorAll(".mensagem");
+    mensagensAntigas.forEach((msg) => msg.classList.add("lido"));
+
+    const baseUrl = options.baseUrl || (typeof window !== "undefined" && window.location ? window.location.origin : "");
+
+    // Helper: constroi URL absoluta de forma segura
+    function buildAbsoluteUrl(path) {
+      if (!path) return null;
+      // Se já é absoluta (http/https) retorna direto
+      try {
+        const maybe = new URL(path, baseUrl || undefined);
+        return maybe.toString();
+      } catch (e) {
+        // fallback: concatena e faz encode
+        const clean = path.replace(/^\/+/, "");
+        return (baseUrl || "") .replace(/\/+$/, "") + "/" + encodeURI(clean);
+      }
+    }
+
+    // Helper: criar parágrafo com icon + texto (protegendo contra XSS)
+    function createTextNodeBlock(text, { icon = "•", color = "#555", indent = false } = {}) {
+      const p = document.createElement("p");
+      p.className = "mensagem";
+      if (indent) p.style.marginLeft = "40px";
+
+      if (icon) {
+        const spanIcon = document.createElement("span");
+        spanIcon.textContent = icon + " ";
+        spanIcon.style.color = color;
+        spanIcon.style.marginRight = "6px";
+        p.appendChild(spanIcon);
+      }
+
+      p.appendChild(document.createTextNode(text));
+      return p;
+    }
+
+    // Parse texto (BR. / PG.)
+    const segmentos = (texto || "").split("BR.").map(s => s.trim()).filter(Boolean);
+    if (segmentos.length === 0 && texto) {
+      // texto vazio dividido — só insere o texto original
+      exibirTexto.appendChild(createTextNodeBlock(texto, { icon: null }));
+    } else {
+      segmentos.forEach(segmento => {
+        if (segmento.startsWith("PG.")) {
+          const conteudo = segmento.replace("PG.", "").trim();
+          exibirTexto.appendChild(createTextNodeBlock(conteudo, { icon: "🔸", color: "orange", indent: false }));
+        } else {
+          exibirTexto.appendChild(createTextNodeBlock(segmento, { icon: "•", color: "#555", indent: true }));
+        }
+      });
+    }
+
+    // ==== MEDIA ====
+    // função para adicionar elemento wrapper (mensagem)
+    function appendWrapperElement(el) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "mensagem";
+      wrapper.style.marginTop = "6px";
+      wrapper.appendChild(el);
+      exibirTexto.appendChild(wrapper);
+      return wrapper;
+    }
+
+    if (media && typeof media === "object") {
+      // Imagens
+      if (Array.isArray(media.imagens) && media.imagens.length > 0) {
+        media.imagens.forEach((imgPath) => {
+          const src = buildAbsoluteUrl(imgPath);
+          if (!src) return;
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = "imagem";
+          img.style.maxWidth = "360px";
+          img.style.borderRadius = "8px";
+          img.style.display = "block";
+          img.style.margin = "6px 0";
+          appendWrapperElement(img);
+        });
+      }
+
+      // Áudios (tenta autoplay; se rejeitado, mostra botão de play)
+      if (Array.isArray(media.audios) && media.audios.length > 0) {
+        media.audios.forEach((audioPath) => {
+          const src = buildAbsoluteUrl(audioPath);
+          if (!src) return;
+          const audio = document.createElement("audio");
+          audio.src = src;
+          audio.controls = true;
+          audio.preload = "auto";
+          audio.style.margin = "6px 0";
+          const wrapper = appendWrapperElement(audio);
+
+          // tenta reproduzir automaticamente (pode ser bloqueado)
+          const p = audio.play?.();
+          if (p && typeof p.then === "function") {
+            p.catch(() => {
+              // autoplay bloqueado — mostra botão para tocar
+              const btn = document.createElement("button");
+              btn.textContent = "▶️ Tocar áudio";
+              btn.className = "btn-play-audio";
+              btn.style.marginLeft = "8px";
+              btn.onclick = () => {
+                audio.play().catch(err => console.error("Erro ao reproduzir:", err));
+                btn.remove();
+              };
+              wrapper.appendChild(btn);
+            });
+          }
+        });
+      }
+
+      // Vídeos (muted=true para permitir autoplay; adicionar botão para ativar som)
+      if (Array.isArray(media.videos) && media.videos.length > 0) {
+        media.videos.forEach((videoPath) => {
+          const src = buildAbsoluteUrl(videoPath);
+          if (!src) return;
+          const video = document.createElement("video");
+          video.src = src;
+          video.controls = true;
+          video.preload = "metadata";
+          video.muted = true; // permite autoplay em muitos browsers
+          video.playsInline = true;
+          video.style.maxWidth = "360px";
+          video.style.borderRadius = "8px";
+          video.style.display = "block";
+          video.style.margin = "6px 0";
+          const wrapper = appendWrapperElement(video);
+
+          // tenta autoplay (pode ser bloqueado)
+          const p = video.play?.();
+          if (p && typeof p.then === "function") {
+            p.catch(() => {
+              // autoplay bloqueado — oferece botão para iniciar
+              const btn = document.createElement("button");
+              btn.textContent = "▶️ Reproduzir vídeo";
+              btn.className = "btn-play-video";
+              btn.style.marginLeft = "8px";
+              btn.onclick = () => {
+                // ao clicar, desmutar opcionalmente
+                video.muted = false;
+                video.play().catch(err => console.error("Erro ao reproduzir vídeo:", err));
+                btn.remove();
+              };
+              wrapper.appendChild(btn);
+            });
+          } else {
+            // autoplay aconteceu: se quiseres ativar som automaticamente (não recomendado),
+            // podes tentar desmutar depois de user gesture.
+          }
+        });
+      }
+    }
+
+    // Salva snapshot em localStorage (string HTML). Avisa: só faça isto se confiares na origem.
+    try {
+      localStorage.setItem("mensagens", exibirTexto.innerHTML);
+    } catch (e) {
+      console.warn("Não foi possível salvar mensagens no localStorage:", e);
+    }
+
+    // scroll automático
+    exibirTexto.scrollTop = exibirTexto.scrollHeight;
+  }
+
+
+
+
+
+      function printUserName(texto) {
+        const exibirTexto = document.getElementById("exibir-userName");
+        if (!exibirTexto) {
+          console.error("Elemento com o id 'exibir-userName' não foi encontrado.");
+          return;
+        }
+        exibirTexto.textContent = texto;
+        localStorage.setItem("userName", texto);
+      }
+      function renderMedicalReport(data) {
+        const container = document.getElementById("exibir-texto");
+        container.innerHTML = ''; // Limpa conteúdo antigo
+        let reportHtml;
+
+        console.log("texto: ", data);
+
+        const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+        const tipoDeAnalise = {
+          articulacao: "Articulação",
+          fonacao: "Fonação",
+          glotis: "Glotal",
+          prosodia: "Prosódia",
+          glota: "Glota",
+          reaprendizagem: "Reaprendizagem",
+        };
+
+        const formatarTipo = (tipo) => tipoDeAnalise[tipo] || tipo;
+
+        const exibirViews = (views) => {
+          if (views === 0) {
+            return `<p><strong style="color: red;">Não visto</strong></p>`;
+          } else {
+            return `<p><strong style="color: green;">Já visto (${views})</strong></p>`;
+          }
+        };
+
+        try {
+          if (Array.isArray(parsed)) {
+            const html = parsed.map((item, index) => `
+              <div class="relatorio">
+                <h2 style="text-align: center; color: #2c3e50;">Relatório Médico ${index + 1}</h2>
+                <hr>
+                ${exibirViews(item.views || 0)}
+                <p><strong>Título da Análise: </strong> ${item.title || "N/A"}</p>
+                <h3 style="margin-top: 20px;">Tipo de Análise</h3>
+                <ul>
+                  ${(item.type_of_analysis || []).map((ana, idx) => `<li>${formatarTipo(ana)} (${idx + 1})</li>`).join('')}
+                </ul>
+                <p><strong>Observações Clínicas:</strong> ${item.observations || "N/A"}</p>
+                <h3 style="margin-top: 20px;">Comentários sobre Análises</h3>
+                <ul>
+                  ${(item.analysis || []).map(ana => `<li><strong>${ana.tipo}:</strong> ${ana.resultado || "N/A"}</li>`).join('')}
+                </ul>
+                <h3 style="margin-top: 20px;">Recomendações Terapêuticas</h3>
+                <p>${item.recommendations || "Sem recomendações."}</p>
+                <p><strong>Criado em:</strong> ${item.created_at || "N/A"}</p>
+              </div>
+            `).join("<hr>");
+            container.innerHTML += html;
+            reportHtml = html;
+          } else if (typeof parsed === 'object') {
+            const html = `
+              <div class="relatorio">
+                <h2 style="text-align: center; color: #2c3e50;">Relatório Médico</h2>
+                <hr>
+                ${exibirViews(parsed.views || 0)}
+                <h3 style="margin-top: 20px;">Tipo de Análise</h3>
+                <ul>
+                  ${(parsed.type_of_analysis || []).map((ana, idx) => `<li>${formatarTipo(ana.tipo)} (${idx + 1})</li>`).join('')}
+                </ul>
+                <p><strong>Observações Clínicas:</strong> ${parsed.observations || "N/A"}</p>
+                <h3 style="margin-top: 20px;">Comentários sobre Análises</h3>
+                <ul>
+                  ${(parsed.analisis || []).map(ana => `<li><strong>${formatarTipo(ana.tipo)}:</strong> ${ana.resultado}</li>`).join('')}
+                </ul>
+                <h3 style="margin-top: 20px;">Recomendações Terapêuticas</h3>
+                <p>${parsed.recommendations || "Sem recomendações."}</p>
+                <p><strong>Criado em:</strong> ${parsed.created_at || "N/A"}</p>
+              </div>
+            `;
+            container.innerHTML += html;
+            reportHtml = html;
+          } else {
+            throw new Error("Formato de dados inválido para relatório médico.");
+          }
+        } catch (error) {
+          console.error("Erro ao analisar o relatório médico:", error);
+          container.innerHTML = "<p>Erro ao carregar o relatório médico.</p>";
+          return;
+        }
+
+        // Atualizar localStorage
+        const mensagensAtuais = localStorage.getItem("mensagens") || "";
+        localStorage.setItem("mensagens", mensagensAtuais + reportHtml);
+
+        // Scroll automático
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function mostrarMenu(menu) {
+        const exibirTexto = document.getElementById("exibir-texto");
+
+        // Marcar mensagens antigas como lidas (verdes)
+        const mensagensAntigas = exibirTexto.querySelectorAll('.mensagem');
+        mensagensAntigas.forEach(msg => msg.classList.add('lido'));
+
+        let output = `<div class="mensagem"><strong>Menu:</strong><br><br>`;
+
+        let contador = 1;
+
+        for (let key in menu) {
+            const valor = menu[key].trim();
+            const [titulo, ...resto] = valor.split(':');
+            const frases = resto.join(':').split("BR.").map(f => f.trim()).filter(Boolean);
+
+            output += `<p><strong>${contador}. ${titulo.trim()}:</strong></p>`;
+            output += `<ul>` + frases.map(frase => `<li>${frase}</li>`).join('') + `</ul>`;
+            contador++;
+        }
+
+        output += `</div>`;
+
+        // Adiciona ao DOM
+        exibirTexto.innerHTML += output;
+
+        // Atualiza localStorage
+        const mensagensAtuais = localStorage.getItem("mensagens") || "";
+        localStorage.setItem("mensagens", mensagensAtuais + output);
+
+        // Scroll automático
+        exibirTexto.scrollTop = exibirTexto.scrollHeight;
+      }
+      var mmiCli_2 = new MMIClient(null, mmi_fusion + "SPEECHIN");
+
+      let isLoggingOut = false;
+
+      document.getElementById("logout").onclick = function () {
+        if (isLoggingOut) return;
+
+        isLoggingOut = true;
+        mostrarLoading("A terminar sessão...");
+
+        const data = { action: "logout" };
+        const message = { intent: data.action, message: "Terminar sessão" };
+        const result = {
+          recognized: ["SPEECH", "SPEECHIN", "APP"],
+          data: data,
+          nlu: message
+        };
+
+        mmiCli_2.sendToIM(
+          new LifeCycleEvent("SPEECHIN", "IM", "text-1", "ctx-1")
+            .doExtensionNotification(
+              new EMMA("text-", "text", "command", 1, 0)
+                .setValue(JSON.stringify(result))
+            )
+        );
+        console.log("Logout solicitado!");
+      };
+
+      // Função para mostrar loading
+      function mostrarLoading(texto) {
+        const loader = document.createElement("div");
+        loader.id = "loader";
+        loader.textContent = texto;
+        loader.style = `
+          position: fixed;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          background: #eee;
+          padding: 20px;
+          border-radius: 8px;
+          font-family: sans-serif;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        `;
+        document.body.appendChild(loader);
+      }
+      function esconderLoading() {
+        const loader = document.getElementById("loader");
+        if (loader) {
+          loader.remove(); // Remove o elemento do DOM
+        }
+      }
+
+
+      // Função para efetuar logout
+      function executarLogout(status) {
+        if (status == "success"){
+          localStorage.clear();
+          esconderLoading();
+          window.location.href = "login.html";
+        }else{
+          mostrarLoading("Ocorreu algum erro, tenta novamente.");
+          esconderLoading();
+        }
+
+        
+      }
+
+      var mmiCli_1 = new MMIClient(null, "https://" + host + ":8000/IM/USER1/APPSPEECH");
+
+      circle.on('click', function () {
+        sendToVoice("circulo");
+      });
+      square.on('click', function () {
+        sendToVoice("quadrado");
+      });
+      triangle.on('click', function () {
+        sendToVoice("triangulo");
+      });
+
+      function sendToVoice(texto) {
+        let speak = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd" xml:lang="pt-PT"><p>${texto}</p></speak>`;
+        var result = speak;
+        mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1")
+          .doStartRequest(new EMMA("text-", "text", "command", 1, 0)
+            .setValue(JSON.stringify(result))));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,369 @@
+<!--
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Dinâmico</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="dynamicForm">
+        <label for="infoType">Tipo de Informação:</label>
+        <select id="infoType" name="infoType" onchange="showFields()">
+            <option value="">Selecione...</option>
+            <option value="personal">Pessoal</option>
+            <option value="professional">Profissional</option>
+        </select>
+
+        <div id="personalFields" class="hidden">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name"><br>
+
+            <label for="age">Idade:</label>
+            <input type="number" id="age" name="age"><br>
+        </div>
+
+        <div id="professionalFields" class="hidden">
+            <label for="company">Empresa:</label>
+            <input type="text" id="company" name="company"><br>
+
+            <label for="position">Cargo:</label>
+            <input type="text" id="position" name="position"><br>
+        </div>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        function showFields() {
+            var infoType = document.getElementById('infoType').value;
+            var personalFields = document.getElementById('personalFields');
+            var professionalFields = document.getElementById('professionalFields');
+
+            personalFields.classList.add('hidden');
+            professionalFields.classList.add('hidden');
+
+            if (infoType === 'personal') {
+                personalFields.classList.remove('hidden');
+            } else if (infoType === 'professional') {
+                professionalFields.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
+-->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Passos</title>
+</head>
+<body>
+    <h1>Criação de Exercícios</h1>
+    <form id="exerciseForm">
+        <label for="exerciseName">Nome do Exercício:</label>
+        <input type="text" id="exerciseName" name="exerciseName" required><br><br>
+        
+        <h2>Passos:</h2>
+        <div id="stepsContainer"></div>
+        
+        <button type="button" onclick="addStep()">Adicionar Passo</button><br><br>
+        <button type="submit">Submeter Exercício</button>
+    </form>
+    
+    <script>
+        let stepCount = 0;
+        let stepCountType = 0;
+        let startIndice = 0;
+
+        function addStep() {
+            stepCount++;
+            stepCountType = stepCountType + 3;
+            startIndice = stepCountType - 2;
+            // Obter o contêiner onde os passos serão adicionados
+            const stepsContainer = document.getElementById('stepsContainer');
+            
+            // Criar um contêiner para cada passo
+            const stepDiv = document.createElement('div');
+            stepDiv.id = `step-${stepCount}`;
+            
+            // Criar o campo de entrada para o passo
+            const stepLabel = document.createElement('label');
+            stepLabel.innerText = `Passo ${stepCount}: `;
+            stepDiv.appendChild(stepLabel);
+            
+            const stepInput = document.createElement('input');
+            stepInput.type = 'text';
+            stepInput.name = `step-${stepCount}`;
+            stepInput.required = true;
+            stepDiv.appendChild(stepInput);
+            
+            // Adicionar botão para remover o passo
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.innerText = 'Remover';
+            removeButton.onclick = () => stepsContainer.removeChild(stepDiv);
+            stepDiv.appendChild(removeButton);
+            
+            // Adicionar o contêiner de passo ao formulário
+            stepsContainer.appendChild(stepDiv);
+        }
+    </script>
+</body>
+</html>
+-->
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Dinâmico</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Exercícios</h1>
+    <form id="exerciseForm">
+        <label for="type">Escolha um tipo:</label>
+        <select id="type" name="type" onchange="setupSteps()">
+            <option value="">Selecione...</option>
+            <option value="articulacao">Articulação</option>
+            <option value="forca">Força</option>
+        </select>
+
+        <div id="stepsContainer" class="hidden">
+            <h2>Passos:</h2>
+            <div id="stepFields"></div>
+            <button type="button" onclick="addSteps()">Adicionar mais 3 passos</button>
+        </div>
+
+        <button type="submit" onclick="submitForm()">Submeter Exercício</button>
+    </form>
+
+    <script>
+        let stepCount = 0;
+
+        function setupSteps() {
+            const type = document.getElementById('type').value;
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepFields = document.getElementById('stepFields');
+
+            // Redefinir o contador e limpar os campos
+            stepCount = 0;
+            stepFields.innerHTML = '';
+
+            if (type === 'articulacao') {
+                stepsContainer.classList.remove('hidden');
+                addSteps(3); // Adicionar 3 passos iniciais para "articulação"
+            } else if (type === 'forca') {
+                stepsContainer.classList.remove('hidden');
+                addSteps(3); // Também inicializa com 3 passos
+            } else {
+                stepsContainer.classList.add('hidden');
+            }
+        }
+
+        function addSteps(amount = 3) {
+            const stepFields = document.getElementById('stepFields');
+            for (let i = 0; i < amount; i++) {
+                stepCount++;
+                const stepDiv = document.createElement('div');
+                stepDiv.id = `step-${stepCount}`;
+
+                const stepLabel = document.createElement('label');
+                stepLabel.innerText = `Passo ${stepCount}: `;
+                stepDiv.appendChild(stepLabel);
+
+                const stepInput = document.createElement('input');
+                stepInput.type = 'text';
+                stepInput.name = `step-${stepCount}`;
+                stepInput.required = true;
+                stepDiv.appendChild(stepInput);
+
+                stepFields.appendChild(stepDiv);
+            }
+        }
+
+        function submitForm() {
+            const form = document.getElementById('exerciseForm');
+            const formData = new FormData(form);
+
+            const steps = [];
+            for (let [key, value] of formData.entries()) {
+                if (key.startsWith('step-')) {
+                    steps.push(value);
+                }
+            }
+
+            console.log("Tipo de exercício:", formData.get('type'));
+            console.log("Passos:", steps);
+
+            // Aqui você pode enviar os dados para o backend ou processá-los como preferir
+            alert(`Exercício submetido:\nTipo: ${formData.get('type')}\nPassos: ${steps.join(', ')}`);
+        }
+    </script>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Dinâmico</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Exercícios</h1>
+    <div class="container">
+        <form action="/" method="post" id="dynamicForm">
+            <label for="name">Nome do Exercício:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="description">Descrição:</label><br>
+            <input type="text" id="description" name="description-exercise" required><br><br>
+
+            <label for="tipo">Tipo:</label><br>
+            <select id="tipo" name="tipo" onchange="showFields()">
+                <option value="">Selecione...</option>
+                <option value="palavras">Repetição de Palavras</option>
+                <option value="frases">Repetição de Frases</option>
+                <option value="leitura">Atividades de Leitura</option>
+                <option value="discurso">Discurso Espontâneo</option>
+                <option value="diadococinesia">Diadococinésia</option>
+            </select>
+            <br><br>
+
+            <!-- Container dinâmico de campos -->
+            <div id="stepsContainer" class="hidden">
+                <h2>Passos:</h2>
+                <div id="stepFields"></div>
+                <button type="button" onclick="addfiedldName()">Adicionar mais passos</button>
+            </div>
+    
+            <button type="submit" onclick="submitForm()">Submeter Exercício</button>
+        </form>
+    </div>
+
+    <script>
+        let stepCount = 0;
+
+        // Exibir campos dinâmicos com base no tipo
+        function showFields() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepFields = document.getElementById('stepFields');
+
+            // Redefinir
+            stepFields.innerHTML = '';
+            stepCount = 0;
+
+            const tipo = document.getElementById('tipo').value;
+
+            if (tipo) {
+                stepsContainer.classList.remove('hidden');
+
+                // Adicionar os primeiros 3 passos para o tipo selecionado
+                if (tipo === 'palavras') {
+                    addSteps(['Passo', 'Palavra', 'Descrição']);
+                } else if (tipo === 'frases') {
+                    addSteps(['Passo', 'Frase', 'Descrição']);
+                } else if (tipo === 'leitura') {
+                    addSteps(['Passo', 'Título', 'Texto', 'Descrição']);
+                } else if (tipo === 'discurso') {
+                    addSteps(['Passo', 'Pergunta']);
+                } else if (tipo === 'diadococinesia') {
+                    addSteps(['Passo', 'Tipo de Consoante', 'Sílabas']);
+                }
+            } else {
+                stepsContainer.classList.add('hidden');
+            }
+        }
+
+        function addfiedldName() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepFields = document.getElementById('stepFields');
+
+            // Redefinir
+            //stepFields.innerHTML = '';
+            //stepCount = 0;
+
+            const tipo = document.getElementById('tipo').value;
+
+            if (tipo) {
+                //stepsContainer.classList.remove('hidden');
+
+                // Adicionar os primeiros 3 passos para o tipo selecionado
+                if (tipo === 'palavras') {
+                    addSteps(['Passo', 'Palavra', 'Descrição']);
+                } else if (tipo === 'frases') {
+                    addSteps(['Passo', 'Frase', 'Descrição']);
+                } else if (tipo === 'leitura') {
+                    addSteps(['Passo', 'Título', 'Texto', 'Descrição']);
+                } else if (tipo === 'discurso') {
+                    addSteps(['Passo', 'Pergunta']);
+                } else if (tipo === 'diadococinesia') {
+                    addSteps(['Passo', 'Tipo de Consoante', 'Sílabas']);
+                }
+            } 
+
+        }
+
+        // Adicionar campos dinâmicos
+        function addSteps(fieldNames = []) {
+            const stepFields = document.getElementById('stepFields');
+            stepCount++;
+            fieldNames.forEach(name => {
+                
+
+                const fieldDiv = document.createElement('div');
+                fieldDiv.id = `step-${stepCount}`;
+
+                const fieldLabel = document.createElement('label');
+                fieldLabel.innerText = `${name} ${stepCount}: `;
+                fieldDiv.appendChild(fieldLabel);
+
+                const fieldInput = document.createElement('input');
+                fieldInput.type = name.toLowerCase() === 'passo' ? 'number' : 'text';
+                fieldInput.name = `${name.toLowerCase()}-${stepCount}`;
+                fieldInput.required = true;
+                fieldDiv.appendChild(fieldInput);
+
+                stepFields.appendChild(fieldDiv);
+            });
+        }
+
+        // Submeter formulário
+        function submitForm(event) {
+            event.preventDefault(); // Evitar recarregar a página
+            const form = document.getElementById('dynamicForm');
+            const formData = new FormData(form);
+
+            const steps = [];
+            for (let [key, value] of formData.entries()) {
+                if (key.startsWith('passo') || key.startsWith('palavra') || key.startsWith('frase') || key.startsWith('title') || key.startsWith('texto')) {
+                    steps.push(`${key}: ${value}`);
+                }
+            }
+
+            alert(`Exercício Submetido:\n${steps.join('\n')}`);
+        }
+    </script>
+</body>
+</html>

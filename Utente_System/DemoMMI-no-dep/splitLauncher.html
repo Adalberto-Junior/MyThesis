@@ -1,0 +1,18 @@
+<html> 
+<head><title>Split Launcher</title> 
+<script> 
+function openWindows() { 
+  const screenWidth = window.screen.availWidth; 
+  const screenHeight = window.screen.availHeight; 
+  const width = Math.floor(screenWidth / 2); 
+  const height = screenHeight; 
+  const ip = "192.168.44.213"; 
+  window.open(`https://${ip}:8082`, "LeftWindow", `width=${width},height=${height},left=0,top=0`); 
+  window.open(`https://${ip}:8082/login.html`, "RightWindow", `width=${width},height=${height},left=${width},top=0`); 
+} 
+</script> 
+</head> 
+<body onload="openWindows()"> 
+<p>Abrindo janelas lado a lado...</p> 
+</body> 
+</html> 

@@ -1,0 +1,277 @@
+version: "3.1"
+nlu:
+- intent: greet
+  examples: |
+    - Oi Assistente
+    - Bom dia, Assistente
+    - Boa tarde, Assistente
+    - Boa noite, Assistente
+    - Olá Assistente
+    - Olá assistente
+    - olá
+    - olá assistente
+    - olá assistnete
+    
+- intent: goodbye
+  examples: |
+    - Xau, Assistente
+    - Adeus, Assistente
+    - Até logo, Assistente
+    - Tenha uma boa noite, Assistente
+    - Até amanhã, Assistente
+    - Até já
+    - Até mais
+    - Por hoje é tudo.
+
+
+- intent: affirm
+  examples: |
+    - Sim
+    - Claro
+    - Parece-me bem
+    - Correto
+    - Okay
+    - Ok
+    - sim
+    - Está bem
+    - Certo
+    - Estou de acordo
+    - Concordo
+    - Sim, por favor
+
+- intent: deny
+  examples: |
+    - Não
+    - Nope
+    - Nunca
+    - Acho que não
+    - Não gosto assim
+    - Nem por isso
+    - Talvez não
+
+- intent: communication_skills
+  examples: |
+    - Quero ver como estão as capacidades da fala.
+    - Como estão as minhas capacidades de comunicação?
+    - Quero analisar as minhas capacidades de comunicação.
+    - Quero testar as minhas capacidades de comunicação.
+    - Gostaria de analisar as minhas capacidades de Linguagem.
+    - Como está a minha comunicação?
+    - Gostaria de fazer um diagnóstico da minha comunicação.
+    - Fazer diagnostico das minhas capacidades de comunicação.
+    - Gostaria de analisar a minha comunicação.
+
+- intent: continue_analyze
+  examples: | 
+    - Próximo exercício, por favor.
+    - Vamos para o próximo. 
+    - Prossiga para o próximo.
+    - Prossiga para o próximo exercício, por favor.
+    - Ok, podemos ir para o próximo exercicio.
+    - Certo, vamos para o próximo. 
+    - Sim, vamos prosseguir.
+    - Seguinte exercício, por favor. 
+    - Vamos para o seguinte, por favor. 
+
+- intent: specific_exercises
+  examples: | 
+    - Quero fazer exercício de [articulacao](test_type)
+    - Quero fazer exercício de [fonologia](test_type)
+    - Quero fazer exercício de [glotal](test_type)
+    - Quero fazer exercicio de [reapreendizagem](test_type)
+    - Quero fazer exercício de [fonacao](test_type)
+    - Quero fazer exercício de [leitura](test_type)
+    - Quero fazer exercício de [repeticao de palavras](test_type)
+    - Quero fazer exercício de [repeticao de frases](test_type)
+    - Quero fazer exercício de [discurso espontaneo](test_type)
+    - Quero fazer exercício de [repeticao de silabas](test_type)
+    - Podemos fazer exercício de [articulacao](test_type)
+    - Podemos fazer exercício de [fonologia](test_type)
+    - Podemos fazer exercício de [glotal](test_type)
+    - Podemos fazer exercicio de [reapreendizagem](test_type)
+    - Podemos fazer exercício de [fonacao](test_type)
+    - Podemos fazer exercício de [leitura](test_type)
+    - Podemos fazer exercício de [repeticao de palavras](test_type)
+    - Podemos fazer exercício de [repeticao de frases](test_type)
+    - Podemos fazer exercício de [discurso espontaneo](test_type)
+    - Podemos fazer exercício de [repeticao de silabas](test_type)
+    - Gostaria de fazer exercício de [articulacao](test_type)
+    - Gostaria de fazer exercício de [fonologia](test_type)
+    - Gostaria de fazer exercício de [glotal](test_type)
+    - Gostaria de fazer exercicio de [reapreendizagem](test_type)
+    - Gostaria de fazer exercício de [fonacao](test_type)
+    - Gostaria de fazer exercício de [leitura](test_type)
+    - Gostaria de fazer exercício de [repeticao de palavras](test_type)
+    - Gostaria de fazer exercício de [repeticao de frases](test_type)
+    - Gostaria de fazer exercício de [discurso espontaneo](test_type)
+    - Gostaria de fazer exercício de [repeticao de silabas](test_type)
+    - exercício de [articulacao](test_type), por favor.
+    - exercício de [fonologia](test_type), por favor.
+    - exercício de [glotal](test_type), por favor.
+    - exercicio de [reapreendizagem](test_type), por favor.
+    - exercício de [fonacao](test_type), por favor.
+    - exercício de [leitura](test_type), por favor.
+    - exercício de [repeticao de palavras](test_type), por favor.
+    - exercício de [repeticao de frases](test_type), por favor.
+    - exercício de [discurso espontaneo](test_type), por favor.
+    - exercício de [repeticao de silabas](test_type), por favor.
+    
+
+
+
+- intent: continue_later
+  examples: | 
+    - Estou um pouco cansada, tenho outras coisas para fazer.
+    - Vou fazer outra coisa, depois continuamos.
+    - Vamos continuar mais tarde.
+    - Podmos continuar mais tarde?
+    - Podemos fazer uma pausa e continuar mais tarde?
+    - Podemos continuar amanhã?
+    - Vamos continuar amanhã?
+    - Tenho que ir, podemos continuar mais tarde?
+    - Tenho que sair, podemos continuar mais tarde?
+    - Vamos continuar depois.
+
+- intent: request_Diagnostic_data
+  examples: | 
+    - Quero ver o relatório das analises.
+    - Quero ver o relatório do diagnóstico.
+    - Quero ver o relatório do teste.
+    - Quero ver as observações do teste.
+    - Quero ver ass observações do diagnóstico de comunicação.
+    - Quero ver as observações do teste de comunicação.
+    - Quero ver os relatórios do teste de comunicação.
+    - Gostaria de ver o relatório do diagnóstico.
+    - Gostaria de ver o relatório do diagnóstico.
+    - Gostaria de ver o relatório do teste.
+    - Gostaria de ver as observações do teste.
+    - Posso ver o relatório do diagnóstico?
+    - Posso ver as observações do diagnóstico?
+    - Posso ver o relatório do teste?
+    - Há algum relatório para ver? 
+
+- intent: continue_from_lst_ste
+  examples: |
+    - Podemos continuar a analise? 
+    - Quero continuar os exercícios.
+    - Gostaria de continuar a operação.
+    - Podemos continuar a análise, por favor.  
+    - Continuar de onde parei. 
+    - Quero continuar de onde parei.
+    - Quero continuar a analise.
+    - Quero continuar a operação.
+    - Gostaria de continuar de onde parei. 
+    - Continuar do último estado, por favor. 
+    - Vamos continuar de onde paramos. 
+    - Olha, continuar da última parte. 
+    - Continuar da última análise, por favor.
+
+- intent: show_menu
+  examples: |
+    - Quero ver o menu.
+    - Gostaria de ver o menu.
+    - Podes mostrar o menu, por favor.
+    - Quero ver as funcionalidades existente.
+    - Mostra o menu, por favor.
+    - Quais são as funcionalidades que existem? 
+    - Podes mostrar as funcionalidades, por favor? 
+    - Menu, por favor. 
+
+- intent: logout
+  examples: |
+    - Fazer logout.
+    - Sair do Sistema.
+    - Terminar a sessão, por favor.
+    - Quero fazer o logout. 
+    - Quero terminar a sessão, por favor.
+    - logout, por favor. 
+
+- intent: startRehabilitation
+  examples: |
+    - Quero iniciar a reabilitação.
+    - Gostaria de começar a reabilitação.
+    - Iniciar reabilitação, por favor.
+    - Começar a reabilitação, por favor.
+    - Quero treinar as minhas capacidades de comunicação.
+    - Quero melhorar a minha comunicação.
+    - Quero trabalhar na minha comunicação.
+    - Quero focar na minha comunicação.
+    - Vamos trabalhar na minha comunicação.
+    - Podemos começar a reabilitação?
+    
+
+- intent: request_change_username
+  examples: |
+    - Quero mudar o meu username
+    - Quero mudar o meu nome
+    - Quero mudar o meu nome de utilizador
+    - Quero alterar o meu nome de utilizador
+    - Gostaria de mudar o meu nome
+    - Gostaria de mudar o meu nome de utilizador
+    - Gostaria de alterar o meu nome
+    - Gostaria de alterar o meu nome de utilizador
+    - Mudar o meu nome
+    - Mudar o meu nome de utilizador
+    - Alterar o meu nome
+    - Alterar o meu nome de utilizador
+    - Mudar o username
+    - Mudar o nome
+    - Mudar o nome de utilizador
+  
+- intent: agradecer
+  examples: |
+    - obrigado
+    - obrigada
+
+- intent: ask_username
+  examples: |
+    - Qual é o seu nome?
+    - Como posso chamá-lo?
+
+- intent: sendToTherapist
+  examples: |
+    - Enviar os dados para a terapeuta.
+    - Podes enviar os dados para a terapeuta, por favor? 
+    - Por favor enviar os dados para a terapeuta.
+    - Poderia enviar os dados para a terapeuta, por favor? 
+    - Enviar os resultados para a terapeuta.
+    - Partilhar os resultados com a terapeuta.
+    - Partilhar os dados com a terapeuta. 
+    - Partilhar os daos com a terapeuta, por favor. 
+    - Partilhar os resultados com a terapeuta, por favor. 
+
+
+- intent: light_switch
+  examples: |
+    - [Liga](switch) a luz da [sala](place), por favor
+    - Podes [ligar](switch) a luz da [cozinha](place)?
+    - Podes [desligar](switch) a luz do [quarto](place)?
+    - [Acende-me](switch) a luz da [entrada](place)
+    - [Apaga](switch) a luz do espelho(place)
+    - Podes [acender](switch) a luz da [casa de banho](place)?
+    - Podes [apagar](switch) a luz da [dispensa](place)?
+    - Podes [desligar](switch) a luz do [quarto e da casa de banho](place)?
+    - [Liga](switch) a luz da [sala](place)
+    - [Liga](switch) a luz do [quarto](place)
+    - [Desliga](switch) a luz do [quarto](place)
+
+- intent: change_color
+  examples: |
+    - Mudar a cor do [quadrado](shape) para  [verde](color)
+    - Mudar o [retangulo](shape) para  [vermelho](color)
+    - Alterar a cor do [circulo](shape) para  [amarelo](color)
+    - Mudar a cor do [quadrado](shape) para  [azul](color)
+    - Alterar o [circulo](shape) para  [verde](color)
+    - Mudar a cor do [triangulo](shape) para  [vermelho](color)
+    - Por o [circulo](shape) em  [amarelo](color)
+    - Mudar para [azul](color) o [triangulo](shape) 
+    - Alterar para [amarelo](color) o [quadrado](shape)
+    - Alterar o [circulo](shape) para  [castanho](color)
+    - Mudar o [quadrado](shape) para  [cinzento](color)
+    - Alterar o [triangulo](shape) para  [laranja](color)
+    - Por a cor do [circulo](shape) em  [rosa](color)
+    - Mudar a cor do [triangulo](shape) para  [preto](color)
+    - Por o [circulo](shape) em  [branco](color)
+    - Mudar para [azul](color) o [circulo](shape)
+
+

@@ -1,0 +1,4 @@
+Introduction|Para fazer o diagnostico vamos fazer alguns exercicios, tais como: repetição das palavras, leituras de frases, vamos conversar um pouco, leitura de rimas e por fim iremos fazer uma repetição silábica. Começaremos dentro de 10 segundos
+exercicio_1|Repita a palavra: "paralelepípedo". Quando terminar, diga "terminei".
+exercicio_2|Agora, conte de 1 a 10 o mais rápido que puder. Quando terminar, diga "terminei".
+exercicio_3|Pronuncie a frase: "O rato roeu a roupa do rei de Roma. Quando terminar, diga "terminei"

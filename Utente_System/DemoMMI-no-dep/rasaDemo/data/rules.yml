@@ -1,0 +1,64 @@
+version: "3.1"
+
+rules:
+
+- rule: Cumprimentar sempre que alguém cumprimentar
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+#- rule: switchonofflights
+#  steps:
+#  - intent: light_switch
+#  - action: action_switch_lights
+
+- rule: ativar form_name
+  steps:
+    - intent: request_change_username
+    - action: action_change_name
+    - slot_was_set:
+      - requested_slot: username
+    - action: form_name
+    - active_loop: form_name
+
+- rule: mudar nome de utilizador
+  condition:
+    - active_loop: form_name
+  steps:
+    - action: form_name
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_submit
+    - action: utter_slots_values
+  
+- rule: responder o agradecimento sempre que alguém agradecer
+  steps:
+  - intent: agradecer
+  - action: utter_agradecer
+
+- rule: Começar diagnóstico sempre que alguém pedir
+  steps:
+  - intent: communication_skills
+  - action: action_start_diagnostics
+  - action: utter_start_diagnostics
+
+- rule: Pausar o diagnóstico sempre que alguém pedir
+  steps:
+  - intent: continue_later
+  - action: action_pause_diagnostics
+  - action: utter_continue_later
+
+
+
+
+# - rule: Add_reminder to calendar
+#   steps:
+#   - intent: add_reminder
+#   - action: action_create_event
+#   - action: utter_anyelse

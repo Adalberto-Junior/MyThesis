@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Exercício</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .container input[type="text"],
+        .container input[type="email"],
+        .container input[type="password"] {
+            width: 99%;
+            padding: 10px;
+            margin-left: 10px;
+            margin: 5px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .myDiv {
+            border: 0px outset beige;
+            background-color: lavender;    
+            text-align: center;
+            width: 99%;
+            height: 40px;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .hidden {
+            display: none;
+        }
+      </style>
+</head>
+
+<body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@latest/dist/svg.min.js"></script>
+    <script src="js/mmi.js"></script>
+    <script src="js/globals.js"></script>
+    <script src="js/jquery-3.6.4.min.js"></script>
+    <script src="js/webtoolkit.utf8.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <div class="myDiv">
+        <h2>Adicionar Exercício</h2>
+    </div>
+    <div class="container">
+        <form action="/" method="post" id="dynamicForm">
+            <label for="name">Nome do Exercício:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="description">Descrição:</label><br>
+            <input type="text" id="description" name="description" required><br><br>
+
+            <!--<label for="tipo">Tipo:</label><br>
+            <input type="text" id="tipo" name="tipo" required><br><br> -->
+
+            <label for="user">Pessoa:</label><br>
+            <input type="text" id="user" name="user" required><br><br>
+
+            <label for="tipo">Tipo:</label><br>
+            <select id="tipo" name="tipo" onchange="showFields()">
+                <option value="">Selecione...</option>
+                <option value="palavras">Repetição de Palavras</option>
+                <option value="frases">Repetição de Frases</option>
+                <option value="leitura">Atividades de Leitura</option>
+                <option value="discurso">Discurso Espontâneo</option>
+                <option value="diadococinesia">Diadococinésia </option>
+            </select>
+            <br><br>
+            <div id="palavrasFields" class="hidden">
+                <label for="passo">Passo:</label><br>
+                <input type="number" id="passo" name="passo"><br><br>
+                <label for="palavra">Palavra:</label><br>
+                <input type="text" id="palavra" name="palavra"><br><br>
+                <label for="description">Descrição:</label><br>
+                <input type="text" id="description" name="description"><br><br>
+            </div>
+            <div id="frasesFields" class="hidden">
+                <label for="passo">Passo:</label><br>
+                <input type="number" id="passo" name="passo"><br><br>
+                <label for="frase">Frase:</label><br>
+                <input type="text" id="frase" name="frase"><br><br>
+                <label for="description">Descrição:</label><br>
+                <input type="text" id="description" name="description"><br><br>
+            </div>
+            <div id="leituraFields" class="hidden">
+                <label for="passo">Passo:</label><br>
+                <input type="number" id="passo" name="passo"><br><br>
+                <label for="title">Título:</label><br>
+                <input type="text" id="title" name="title"><br><br>
+                <label for="texto">Texto:</label><br>
+                <input type="text" id="texto" name="texto"><br><br>
+                <label for="description">Descrição:</label><br>
+                <input type="text" id="description" name="description"><br><br>
+            </div>
+            <div id="discursoFields" class="hidden">
+                <label for="passo">Passo:</label><br>
+                <input type="number" id="passo" name="passo"><br><br>
+                <label for="discurso">Pergunta:</label><br>
+                <input type="text" id="discurso" name="discurso"><br><br>
+            </div>
+            <div id="diadococinesiaFields" class="hidden">
+                <label for="passo">Passo:</label><br>
+                <input type="number" id="passo" name="passo"><br><br>
+                <label for="consonant">Tipo de consonante:</label><br>
+                <input type="text" id="consonant" name="consonant"><br><br>
+                <label for="silaba">Sílabas:</label><br>
+                <input type="text" id="silaba" name="silaba"><br><br>
+            </div>
+            
+            <div id="stepsContainer" class="hidden">
+                <h2>Passos:</h2>
+                <div id="stepFields"></div>
+                <button type="button" onclick="addSteps()">Adicionar mais 3 passos</button>
+            </div>
+            <input type="submit" value="Adicionar Exercício">
+        </form>
+    </div>
+    <script>
+        function showFields() {
+            var palavrasFields = document.getElementById('palavrasFields');
+            var frasesFields = document.getElementById('frasesFields'); 
+            var leituraFields = document.getElementById('leituraFields');
+            var discursoFields = document.getElementById('discursoFields');
+            var diadococinesiaFields = document.getElementById('diadococinesiaFields');
+            var tipo = document.getElementById('tipo').value;
+
+            palavrasFields.classList.add('hidden');
+            frasesFields.classList.add('hidden');
+            leituraFields.classList.add('hidden');
+            discursoFields.classList.add('hidden');
+            diadococinesiaFields.classList.add('hidden');
+
+            if (tipo === 'palavras') {
+                palavrasFields.classList.remove('hidden');
+            } else if (tipo === 'frases') {
+                frasesFields.classList.remove('hidden');
+            } else if (tipo === 'leitura') {
+                leituraFields.classList.remove('hidden');
+            } else if (tipo === 'discurso') {
+                discursoFields.classList.remove('hidden');
+            } else if (tipo === 'diadococinesia') {
+                diadococinesiaFields.classList.remove('hidden');
+            }
+        }
+    </script>
+
+</html>

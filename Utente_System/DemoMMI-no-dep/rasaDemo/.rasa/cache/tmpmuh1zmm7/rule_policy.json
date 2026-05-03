@@ -1,0 +1,55 @@
+{
+  "lookup": {
+    "rules": {
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]": "utter_goodbye",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]": "action_listen",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"form_name\"}}]": "utter_submit",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"form_name\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"utter_submit\"}}]": "utter_slots_values",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"form_name\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"utter_submit\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"utter_slots_values\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"agradecer\"}}]": "utter_agradecer",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"agradecer\"}}, {\"prev_action\": {\"action_name\": \"utter_agradecer\"}, \"user\": {\"intent\": \"agradecer\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_change_username\"}}]": "action_change_name",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_change_username\"}}, {\"prev_action\": {\"action_name\": \"action_change_name\"}, \"user\": {\"intent\": \"request_change_username\"}}]": "form_name",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_change_username\"}}, {\"prev_action\": {\"action_name\": \"action_change_name\"}, \"user\": {\"intent\": \"request_change_username\"}}, {\"active_loop\": {\"name\": \"form_name\"}, \"prev_action\": {\"action_name\": \"form_name\"}, \"user\": {\"intent\": \"request_change_username\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"continue_later\"}}]": "action_pause_diagnostics",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"continue_later\"}}, {\"prev_action\": {\"action_name\": \"action_pause_diagnostics\"}, \"user\": {\"intent\": \"continue_later\"}}]": "utter_continue_later",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"continue_later\"}}, {\"prev_action\": {\"action_name\": \"action_pause_diagnostics\"}, \"user\": {\"intent\": \"continue_later\"}}, {\"prev_action\": {\"action_name\": \"utter_continue_later\"}, \"user\": {\"intent\": \"continue_later\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"greet\"}}]": "utter_greet",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"greet\"}}, {\"prev_action\": {\"action_name\": \"utter_greet\"}, \"user\": {\"intent\": \"greet\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"communication_skills\"}}]": "action_start_diagnostics",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"communication_skills\"}}, {\"prev_action\": {\"action_name\": \"action_start_diagnostics\"}, \"user\": {\"intent\": \"communication_skills\"}}]": "utter_start_diagnostics",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"communication_skills\"}}, {\"prev_action\": {\"action_name\": \"action_start_diagnostics\"}, \"user\": {\"intent\": \"communication_skills\"}}, {\"prev_action\": {\"action_name\": \"utter_start_diagnostics\"}, \"user\": {\"intent\": \"communication_skills\"}}]": "action_listen"
+    },
+    "rule_only_slots": [],
+    "rule_only_loops": [
+      "form_name"
+    ],
+    "rules_for_loop_unhappy_path": {
+      "[{\"prev_action\": {\"action_name\": \"action_change_name\"}}, {\"active_loop\": {\"name\": \"form_name\"}, \"prev_action\": {\"action_name\": \"form_name\"}, \"user\": {\"intent\": \"request_change_username\"}}]": "do_not_predict_loop_action"
+    },
+    "rules_not_in_stories": [
+      "predicting default action with intent restart",
+      "handling active loops and forms - form_name",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"continue_later\"}}, {\"prev_action\": {\"action_name\": \"action_pause_diagnostics\"}, \"user\": {\"intent\": \"continue_later\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_change_username\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"communication_skills\"}}, {\"prev_action\": {\"action_name\": \"action_start_diagnostics\"}, \"user\": {\"intent\": \"communication_skills\"}}]",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"form_name\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"utter_submit\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"continue_later\"}}, {\"prev_action\": {\"action_name\": \"action_pause_diagnostics\"}, \"user\": {\"intent\": \"continue_later\"}}, {\"prev_action\": {\"action_name\": \"utter_continue_later\"}, \"user\": {\"intent\": \"continue_later\"}}]",
+      "predicting default action with intent session_start",
+      "predicting default action with intent back",
+      "handling active loops and forms - form_name - action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"communication_skills\"}}, {\"prev_action\": {\"action_name\": \"action_start_diagnostics\"}, \"user\": {\"intent\": \"communication_skills\"}}, {\"prev_action\": {\"action_name\": \"utter_start_diagnostics\"}, \"user\": {\"intent\": \"communication_skills\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"agradecer\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"greet\"}}]",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"form_name\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"form_name\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"utter_submit\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"utter_slots_values\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"agradecer\"}}, {\"prev_action\": {\"action_name\": \"utter_agradecer\"}, \"user\": {\"intent\": \"agradecer\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"continue_later\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"greet\"}}, {\"prev_action\": {\"action_name\": \"utter_greet\"}, \"user\": {\"intent\": \"greet\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"communication_skills\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_change_username\"}}, {\"prev_action\": {\"action_name\": \"action_change_name\"}, \"user\": {\"intent\": \"request_change_username\"}}]"
+    ]
+  }
+}
