@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# 1. Obter o endereço IP local (Equivalente ao ipconfig)
+ip=$(hostname -I | awk '{print $1}')
+
+echo "Seu IP é: $ip"
+
+# 2. Executar o script de split screen (Assumindo que converteu openSplitScreen.bat para .sh)
+chmod +x openSplitScreen.sh 2>/dev/null
+./openSplitScreen.sh "$ip"
+
+# 3. Funções para abrir novos terminais (Linux depende do terminal instalado)
+# Este exemplo usa o 'gnome-terminal', comum no Ubuntu/Debian.
+# Se usar outro (xterm, konsole), o comando muda.
+
+cd ./WebAppAssistantV2/Aplicaction/ || exit
+
+# Broker
+gnome-terminal --title="Broker" -- bash -c "../../Python/python3 broker.py; exec bash"
+sleep 5
+
+# Assistente
+gnome-terminal --title="Assistente" -- bash -c "../../Python/python3 assistente.py; exec bash"
+
+# DataManager (com ativação de ambiente virtual)
+gnome-terminal --title="DataManager" -- bash -c "source ../../Python/mongodb_env/bin/activate && python3 dataManager.py; exec bash"
+
+# Diagnostico
+gnome-terminal --title="Diagnostico" -- bash -c "source ../../Python/disvoice_env/bin/activate && python3 diagnosticModule.py; exec bash"
+
+# ExerciseModule
+gnome-terminal --title="ExerciseModule" -- bash -c "../../Python/python3 exerciseModule.py; exec bash"
+
+# MMI e Fusion (Java)
+cd ../../mmiframeworkV2/ || exit
+gnome-terminal --title="MMI" -- bash -c "java -jar mmiframeworkV2.jar; exec bash"
+
+cd ../FusionEngine/ || exit
+gnome-terminal --title="FUSION" -- bash -c "java -jar FusionEngine.jar; exec bash"
+
+# RASA
+cd ..
+gnome-terminal --title="RASA" -- bash -c "source ./Python/rasa_env/bin/activate && python3 -m rasa run --enable-api -m ./rasaDemo/models/ --cors '*'; exec bash"
+
+# SERVER
+cd ./WebAppAssistantV2/ || exit
+gnome-terminal --title="SERVER" -- bash -c "../Python/python3 server.py; exec bash"
+
+sleep 10
+
+# Abrir página final
+chmod +x openpage.sh 2>/dev/null
+./openpage.sh

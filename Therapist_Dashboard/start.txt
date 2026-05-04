@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Limpar o terminal
+clear
+
+echo "===================================="
+echo " Iniciando aplicação Full Stack"
+echo "===================================="
+
+# Iniciar o Frontend:
+# Usamos o & no final para rodar em segundo plano ou gnome-terminal para abrir nova janela
+cd GUI || exit[cite: 3]
+echo " Iniciando frontend React..."[cite: 3]
+gnome-terminal --title="Frontend" -- bash -c "npm run dev; exec bash"[cite: 3]
+
+# Mover para a pasta do backend
+cd ../backend || exit[cite: 3]
+echo "🔧 Ativando ambiente virtual..."[cite: 3]
+
+# No Linux, o ambiente virtual fica em bin/activate e usa-se 'source'
+# Iniciando backend Flask
+echo " Iniciando backend Flask..."[cite: 3]
+gnome-terminal --title="Backend" -- bash -c "source venv/bin/activate && python3 app.py; exec bash"[cite: 3]
+
+# Voltar à raiz
+cd ..[cite: 3]
